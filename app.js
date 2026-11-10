@@ -7,6 +7,7 @@
     error: document.querySelector('#error-screen'),
     errorMessage: document.querySelector('#error-message'),
     retry: document.querySelector('#retry-button'),
+    cameraContainer: document.querySelector('#camera-container'),
     scene: document.querySelector('#ar-scene'),
     hud: document.querySelector('#ar-hud'),
     message: document.querySelector('#ar-message'),
@@ -29,7 +30,7 @@
   function setScreen(screen) {
     elements.loading.classList.toggle('is-hidden', screen !== 'loading');
     elements.error.classList.toggle('is-hidden', screen !== 'error');
-    elements.scene.classList.toggle('is-hidden', screen !== 'ready');
+    elements.cameraContainer.classList.toggle('is-hidden', screen !== 'ready');
     elements.hud.classList.toggle('is-hidden', screen !== 'ready');
   }
 
@@ -111,7 +112,7 @@
   }
 
   function refreshCameraViewport() {
-    if (elements.scene.classList.contains('is-hidden')) return;
+    if (elements.cameraContainer.classList.contains('is-hidden')) return;
     window.dispatchEvent(new Event('resize'));
   }
 

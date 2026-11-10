@@ -29,23 +29,24 @@
       <p id="ar-message" class="ar-message">Point the camera at the CU logo</p>
     </div>
 
-    <a-scene
-      id="ar-scene"
-      class="is-hidden"
-      vr-mode-ui="enabled: false"
-      device-orientation-permission-ui="enabled: false"
-      mindar-image="imageTargetSrc: ./assets/targets/targets.mind; uiLoading: no; uiScanning: no; uiError: no"
-      renderer="colorManagement: true; physicallyCorrectLights: true"
-      embedded>
-      <a-assets>
-        <a-entity id="department-assets"></a-entity>
-      </a-assets>
-      <a-camera position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-camera>
-      <a-entity id="target" mindar-image-target="targetIndex: 0">
-        <a-entity id="department-grid" position="0 0 0.05"></a-entity>
-      </a-entity>
-      <a-light type="ambient" color="#ffffff" intensity="1.2"></a-light>
-    </a-scene>
+    <div id="camera-container" class="camera-container is-hidden" aria-label="Augmented reality camera view">
+      <a-scene
+        id="ar-scene"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false"
+        mindar-image="imageTargetSrc: ./assets/targets/targets.mind; uiLoading: no; uiScanning: no; uiError: no"
+        renderer="colorManagement: true; physicallyCorrectLights: true"
+        embedded>
+        <a-assets>
+          <a-entity id="department-assets"></a-entity>
+        </a-assets>
+        <a-camera position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-camera>
+        <a-entity id="target" mindar-image-target="targetIndex: 0">
+          <a-entity id="department-grid" position="0 0 0.05"></a-entity>
+        </a-entity>
+        <a-light type="ambient" color="#ffffff" intensity="1.2"></a-light>
+      </a-scene>
+    </div>
 
     <section id="info-overlay" class="info-overlay is-hidden" aria-modal="true" role="dialog" aria-labelledby="department-name">
       <div class="info-content">
