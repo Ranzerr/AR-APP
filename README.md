@@ -60,6 +60,7 @@ The app now:
 - Recalculates the MindAR camera viewport after startup, orientation changes, and mobile browser viewport changes.
 - Keeps the AR canvas and camera video centered and full-screen in portrait and landscape layouts.
 - Uses a scrollable department information overlay on small screens.
+- Shows a scanner indicator for starting, active scanning, target found, and scanner error states.
 
 For the best phone test, use the latest Chrome or Safari, hold the phone in portrait mode, and reload after rotating the device.
 

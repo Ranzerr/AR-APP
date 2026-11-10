@@ -8,8 +8,11 @@
     errorMessage: document.querySelector('#error-message'),
     retry: document.querySelector('#retry-button'),
     cameraContainer: document.querySelector('#camera-container'),
+    targetMarker: document.querySelector('#target-marker'),
     scene: document.querySelector('#ar-scene'),
     hud: document.querySelector('#ar-hud'),
+    scannerIndicator: document.querySelector('#scanner-indicator'),
+    scannerStatus: document.querySelector('#scanner-status'),
     message: document.querySelector('#ar-message'),
     target: document.querySelector('#target'),
     grid: document.querySelector('#department-grid'),
@@ -25,18 +28,26 @@
 
   let departments = [];
   let targetFound = false;
+  let arReady = false;
   let activeDepartment = null;
 
   function setScreen(screen) {
     elements.loading.classList.toggle('is-hidden', screen !== 'loading');
     elements.error.classList.toggle('is-hidden', screen !== 'error');
-    elements.cameraContainer.classList.toggle('is-hidden', screen !== 'ready');
+    elements.cameraContainer.classList.toggle('is-hidden', screen === 'error');
     elements.hud.classList.toggle('is-hidden', screen !== 'ready');
+    elements.targetMarker.classList.toggle('is-hidden', screen !== 'ready');
   }
 
   function showError(message) {
     elements.errorMessage.textContent = message;
+    setScannerStatus('error', 'Scanner unavailable');
     setScreen('error');
+  }
+
+  function setScannerStatus(status, message) {
+    elements.scannerIndicator.className = `scanner-indicator is-${status}`;
+    elements.scannerStatus.textContent = message;
   }
 
   async function checkCameraAccess() {
@@ -135,13 +146,21 @@
   }
 
   function bindArEvents() {
+    elements.scene.addEventListener('arReady', () => {
+      arReady = true;
+      setScannerStatus('scanning', 'Scanner active');
+    });
     elements.target.addEventListener('targetFound', () => {
       targetFound = true;
+      elements.targetMarker.classList.add('is-hidden');
+      setScannerStatus('found', 'Target found');
       elements.message.textContent = 'CU logo recognized. Tap a department.';
       elements.grid.querySelectorAll('.clickable').forEach((image) => image.emit('targetFound'));
     });
     elements.target.addEventListener('targetLost', () => {
       targetFound = false;
+      elements.targetMarker.classList.remove('is-hidden');
+      setScannerStatus('scanning', 'Scanner active');
       elements.message.textContent = 'Point the camera at the CU logo';
     });
     elements.viewer.addEventListener('error', handleModelError);
@@ -152,6 +171,7 @@
 
   async function startApp() {
     closeDepartment(false);
+    setScannerStatus('starting', 'Starting scanner...');
     setScreen('loading');
     try {
       if (!departments.length) await loadDepartments();
@@ -164,8 +184,16 @@
           elements.scene.addEventListener('arError', () => { window.clearTimeout(timeout); reject(new Error('AR initialization failed. Check camera permission and reload the page.')); }, { once: true });
         });
       }
+      if (!arReady) {
+        await new Promise((resolve, reject) => {
+          const timeout = window.setTimeout(() => reject(new Error('The image scanner took too long to start.')), 15000);
+          elements.scene.addEventListener('arReady', () => { window.clearTimeout(timeout); resolve(); }, { once: true });
+          elements.scene.addEventListener('arError', () => { window.clearTimeout(timeout); reject(new Error('Image scanning failed to start. Check the target file and camera permission.')); }, { once: true });
+        });
+      }
       setScreen('ready');
       window.requestAnimationFrame(refreshCameraViewport);
+      setScannerStatus(targetFound ? 'found' : 'scanning', targetFound ? 'Target found' : 'Scanner active');
       elements.message.textContent = targetFound ? 'CU logo recognized. Tap a department.' : 'Point the camera at the CU logo';
     } catch (error) {
       showError(error.message || 'An unexpected error occurred.');

@@ -26,10 +26,14 @@
     </section>
 
     <div id="ar-hud" class="ar-hud is-hidden">
+      <div class="ar-status" aria-live="polite">
+        <span id="scanner-indicator" class="scanner-indicator is-starting" aria-hidden="true"></span>
+        <span id="scanner-status">Starting scanner...</span>
+      </div>
       <p id="ar-message" class="ar-message">Point the camera at the CU logo</p>
     </div>
 
-    <div id="camera-container" class="camera-container is-hidden" aria-label="Augmented reality camera view">
+    <div id="camera-container" class="camera-container" aria-label="Augmented reality camera view">
       <a-scene
         id="ar-scene"
         vr-mode-ui="enabled: false"
@@ -46,6 +50,10 @@
         </a-entity>
         <a-light type="ambient" color="#ffffff" intensity="1.2"></a-light>
       </a-scene>
+      <div id="target-marker" class="target-marker is-hidden" aria-hidden="true">
+        <div class="marker-frame"></div>
+        <p>Fit the CU logo inside the frame</p>
+      </div>
     </div>
 
     <section id="info-overlay" class="info-overlay is-hidden" aria-modal="true" role="dialog" aria-labelledby="department-name">
