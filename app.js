@@ -3,6 +3,7 @@
 
   const elements = {
     loading: document.querySelector('#loading-screen'),
+    loadingMessage: document.querySelector('#loading-message'),
     error: document.querySelector('#error-screen'),
     errorMessage: document.querySelector('#error-message'),
     retry: document.querySelector('#retry-button'),
@@ -35,6 +36,34 @@
   function showError(message) {
     elements.errorMessage.textContent = message;
     setScreen('error');
+  }
+
+  async function checkCameraAccess() {
+    if (!window.isSecureContext || !['https:', 'http:'].includes(window.location.protocol) || (window.location.protocol === 'http:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')) {
+      throw new Error('Camera access requires HTTPS. Open the GitHub Pages HTTPS address, not an http:// or file:// address.');
+    }
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error('This browser does not support camera access. Open the app in the latest Chrome or Safari.');
+    }
+
+    elements.loadingMessage.textContent = 'Requesting camera access...';
+    let stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { facingMode: { ideal: 'environment' } }
+      });
+    } catch (error) {
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        throw new Error('Camera permission was blocked. Allow Camera for this site in your browser settings, then tap Try again.');
+      }
+      if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+        throw new Error('No camera was found. Check that your device has a camera and try again.');
+      }
+      throw new Error(`Camera access failed: ${error.message || 'check your browser and site permissions.'}`);
+    } finally {
+      stream?.getTracks().forEach((track) => track.stop());
+    }
   }
 
   function createDepartmentGrid() {
@@ -113,11 +142,12 @@
     try {
       if (!departments.length) await loadDepartments();
       createDepartmentGrid();
+      await checkCameraAccess();
       if (!elements.scene.hasLoaded) {
         await new Promise((resolve, reject) => {
           const timeout = window.setTimeout(() => reject(new Error('The AR camera took too long to start.')), 15000);
           elements.scene.addEventListener('loaded', () => { window.clearTimeout(timeout); resolve(); }, { once: true });
-          elements.scene.addEventListener('arError', () => { window.clearTimeout(timeout); reject(new Error('Camera access or AR initialization failed.')); }, { once: true });
+          elements.scene.addEventListener('arError', () => { window.clearTimeout(timeout); reject(new Error('AR initialization failed. Check camera permission and reload the page.')); }, { once: true });
         });
       }
       setScreen('ready');
