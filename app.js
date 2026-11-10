@@ -15,14 +15,8 @@
     scannerIndicator: document.querySelector('#scanner-indicator'),
     scannerStatus: document.querySelector('#scanner-status'),
     message: document.querySelector('#ar-message'),
-    targets: [
-      document.querySelector('#target-low-quality'),
-      document.querySelector('#target-high-quality')
-    ],
-    grids: [
-      document.querySelector('#department-grid-low'),
-      document.querySelector('#department-grid-high')
-    ],
+    target: document.querySelector('#cu-logo-target'),
+    grid: document.querySelector('#department-grid'),
     overlay: document.querySelector('#info-overlay'),
     logo: document.querySelector('#department-logo'),
     name: document.querySelector('#department-name'),
@@ -43,7 +37,9 @@
     elements.error.classList.toggle('is-hidden', screen !== 'error');
     elements.cameraContainer.classList.toggle('is-hidden', screen === 'error');
     elements.hud.classList.toggle('is-hidden', screen !== 'ready');
-    elements.targetMarker.classList.toggle('is-hidden', screen !== 'ready');
+    if (elements.targetMarker) {
+      elements.targetMarker.classList.toggle('is-hidden', screen !== 'ready');
+    }
   }
 
   function showError(message) {
@@ -53,13 +49,20 @@
   }
 
   function setScannerStatus(status, message) {
-    elements.scannerIndicator.className = `scanner-indicator is-${status}`;
-    elements.scannerStatus.textContent = message;
+    if (elements.scannerIndicator) {
+      elements.scannerIndicator.className = `scanner-indicator is-${status}`;
+    }
+    if (elements.scannerStatus) {
+      elements.scannerStatus.textContent = message;
+    }
   }
 
   function setMarkerState(state, message) {
+    if (!elements.targetMarker) return;
     elements.targetMarker.classList.toggle('is-aligned', state === 'aligned');
-    elements.markerMessage.textContent = message;
+    if (elements.markerMessage) {
+      elements.markerMessage.textContent = message;
+    }
   }
 
   async function checkCameraAccess() {
@@ -91,22 +94,26 @@
   }
 
   function createDepartmentGrid() {
-    elements.grids.forEach((grid) => {
-      grid.replaceChildren();
-      departments.forEach((department, index) => {
-        const column = index % 4;
-        const row = Math.floor(index / 4);
-        const image = document.createElement('a-image');
-        image.classList.add('clickable');
-        image.setAttribute('src', department.logo);
-        image.setAttribute('width', '0.72');
-        image.setAttribute('height', '0.72');
-        image.setAttribute('position', `${(column - 1.5) * 0.9} ${(0.45 - row * 0.9)} 0`);
-        image.setAttribute('material', 'shader: flat; transparent: true; alphaTest: 0.05');
-        image.setAttribute('animation__pop', `property: scale; from: 0 0 0; to: 1 1 1; dur: 360; delay: ${index * 55}; easing: easeOutBack; startEvents: targetFound`);
-        image.addEventListener('click', () => openDepartment(index));
-        grid.appendChild(image);
-      });
+    const grid = elements.grid;
+    if (!grid) return;
+    grid.replaceChildren();
+
+    departments.forEach((department, index) => {
+      const column = index % 4;
+      const row = Math.floor(index / 4);
+      const posX = (column - 1.5) * 0.9;
+      const posY = 0.45 - row * 0.9;
+
+      const image = document.createElement('a-image');
+      image.classList.add('clickable');
+      image.setAttribute('src', department.logo);
+      image.setAttribute('width', '0.72');
+      image.setAttribute('height', '0.72');
+      image.setAttribute('position', `${posX} ${posY} 0`);
+      image.setAttribute('material', 'shader: flat; transparent: true; alphaTest: 0.05');
+      
+      image.addEventListener('click', () => openDepartment(index));
+      grid.appendChild(image);
     });
   }
 
@@ -164,24 +171,23 @@
       arReady = true;
       setScannerStatus('scanning', 'Scanner active');
     });
-    elements.targets.forEach((target) => {
-      target.addEventListener('targetFound', () => {
+
+    if (elements.target) {
+      elements.target.addEventListener('targetFound', () => {
         targetFound = true;
         setMarkerState('aligned', 'Aligned — target found');
         setScannerStatus('found', 'Target found');
         elements.message.textContent = 'CU logo recognized. Tap a department.';
-        elements.grids.forEach((grid) => {
-          grid.querySelectorAll('.clickable').forEach((image) => image.emit('targetFound'));
-        });
       });
-      target.addEventListener('targetLost', () => {
-        if (elements.targets.some((item) => item.object3D.visible)) return;
+
+      elements.target.addEventListener('targetLost', () => {
         targetFound = false;
         setMarkerState('searching', 'Align the CU logo inside the frame');
         setScannerStatus('scanning', 'Scanner active');
         elements.message.textContent = 'Point the camera at the CU logo';
       });
-    });
+    }
+
     elements.viewer.addEventListener('error', handleModelError);
     elements.back.addEventListener('click', () => closeDepartment());
     elements.retry.addEventListener('click', startApp);
@@ -196,6 +202,7 @@
       if (!departments.length) await loadDepartments();
       createDepartmentGrid();
       await checkCameraAccess();
+
       if (!elements.scene.hasLoaded) {
         await new Promise((resolve, reject) => {
           const timeout = window.setTimeout(() => reject(new Error('The AR camera took too long to start.')), 15000);
@@ -203,6 +210,7 @@
           elements.scene.addEventListener('arError', () => { window.clearTimeout(timeout); reject(new Error('AR initialization failed. Check camera permission and reload the page.')); }, { once: true });
         });
       }
+
       if (!arReady) {
         await new Promise((resolve, reject) => {
           const timeout = window.setTimeout(() => reject(new Error('The image scanner took too long to start.')), 15000);
@@ -210,10 +218,13 @@
           elements.scene.addEventListener('arError', () => { window.clearTimeout(timeout); reject(new Error('Image scanning failed to start. Check the target file and camera permission.')); }, { once: true });
         });
       }
+
       setScreen('ready');
       window.requestAnimationFrame(refreshCameraViewport);
       setMarkerState(targetFound ? 'aligned' : 'searching', targetFound ? 'Aligned — target found' : 'Align the CU logo inside the frame');
-      elements.targetMarker.classList.toggle('is-hidden', targetFound);
+      if (elements.targetMarker) {
+        elements.targetMarker.classList.toggle('is-hidden', targetFound);
+      }
       setScannerStatus(targetFound ? 'found' : 'scanning', targetFound ? 'Target found' : 'Scanner active');
       elements.message.textContent = targetFound ? 'CU logo recognized. Tap a department.' : 'Point the camera at the CU logo';
     } catch (error) {
