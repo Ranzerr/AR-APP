@@ -25,9 +25,9 @@ The current data is stored in `departments.json`. Update only the mascot labels 
 2. Upload a clear, high-contrast image of the official Capitol University logo.
 3. Compile the image target and download the generated `targets.mind` file.
 4. Put it at `./assets/targets/targets.mind`.
-5. The official CU logo must be the first target in the compiled file because the app uses `targetIndex: 0`.
+5. The app currently supports the first two compiled targets (`targetIndex: 0` and `targetIndex: 1`). Keep the intended logo images in those two positions.
 
-The target file and numbered logo/model assets are already wired into the app. The college names and program descriptions have been entered; confirm the official mascot names before publishing.
+The target file and numbered logo/model assets are already wired into the app. The app accepts either of the first two compiled target images, so a high- and low-quality version can both be tested. The college names and program descriptions have been entered; confirm the official mascot names before publishing.
 
 ## Run locally
 

@@ -9,13 +9,20 @@
     retry: document.querySelector('#retry-button'),
     cameraContainer: document.querySelector('#camera-container'),
     targetMarker: document.querySelector('#target-marker'),
+    markerMessage: document.querySelector('#marker-message'),
     scene: document.querySelector('#ar-scene'),
     hud: document.querySelector('#ar-hud'),
     scannerIndicator: document.querySelector('#scanner-indicator'),
     scannerStatus: document.querySelector('#scanner-status'),
     message: document.querySelector('#ar-message'),
-    target: document.querySelector('#target'),
-    grid: document.querySelector('#department-grid'),
+    targets: [
+      document.querySelector('#target-low-quality'),
+      document.querySelector('#target-high-quality')
+    ],
+    grids: [
+      document.querySelector('#department-grid-low'),
+      document.querySelector('#department-grid-high')
+    ],
     overlay: document.querySelector('#info-overlay'),
     logo: document.querySelector('#department-logo'),
     name: document.querySelector('#department-name'),
@@ -50,6 +57,11 @@
     elements.scannerStatus.textContent = message;
   }
 
+  function setMarkerState(state, message) {
+    elements.targetMarker.classList.toggle('is-aligned', state === 'aligned');
+    elements.markerMessage.textContent = message;
+  }
+
   async function checkCameraAccess() {
     if (!window.isSecureContext || !['https:', 'http:'].includes(window.location.protocol) || (window.location.protocol === 'http:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')) {
       throw new Error('Camera access requires HTTPS. Open the GitHub Pages HTTPS address, not an http:// or file:// address.');
@@ -79,20 +91,22 @@
   }
 
   function createDepartmentGrid() {
-    elements.grid.replaceChildren();
-    departments.forEach((department, index) => {
-      const column = index % 4;
-      const row = Math.floor(index / 4);
-      const image = document.createElement('a-image');
-      image.classList.add('clickable');
-      image.setAttribute('src', department.logo);
-      image.setAttribute('width', '0.72');
-      image.setAttribute('height', '0.72');
-      image.setAttribute('position', `${(column - 1.5) * 0.9} ${(0.45 - row * 0.9)} 0`);
-      image.setAttribute('material', 'shader: flat; transparent: true; alphaTest: 0.05');
-      image.setAttribute('animation__pop', `property: scale; from: 0 0 0; to: 1 1 1; dur: 360; delay: ${index * 55}; easing: easeOutBack; startEvents: targetFound`);
-      image.addEventListener('click', () => openDepartment(index));
-      elements.grid.appendChild(image);
+    elements.grids.forEach((grid) => {
+      grid.replaceChildren();
+      departments.forEach((department, index) => {
+        const column = index % 4;
+        const row = Math.floor(index / 4);
+        const image = document.createElement('a-image');
+        image.classList.add('clickable');
+        image.setAttribute('src', department.logo);
+        image.setAttribute('width', '0.72');
+        image.setAttribute('height', '0.72');
+        image.setAttribute('position', `${(column - 1.5) * 0.9} ${(0.45 - row * 0.9)} 0`);
+        image.setAttribute('material', 'shader: flat; transparent: true; alphaTest: 0.05');
+        image.setAttribute('animation__pop', `property: scale; from: 0 0 0; to: 1 1 1; dur: 360; delay: ${index * 55}; easing: easeOutBack; startEvents: targetFound`);
+        image.addEventListener('click', () => openDepartment(index));
+        grid.appendChild(image);
+      });
     });
   }
 
@@ -150,18 +164,23 @@
       arReady = true;
       setScannerStatus('scanning', 'Scanner active');
     });
-    elements.target.addEventListener('targetFound', () => {
-      targetFound = true;
-      elements.targetMarker.classList.add('is-hidden');
-      setScannerStatus('found', 'Target found');
-      elements.message.textContent = 'CU logo recognized. Tap a department.';
-      elements.grid.querySelectorAll('.clickable').forEach((image) => image.emit('targetFound'));
-    });
-    elements.target.addEventListener('targetLost', () => {
-      targetFound = false;
-      elements.targetMarker.classList.remove('is-hidden');
-      setScannerStatus('scanning', 'Scanner active');
-      elements.message.textContent = 'Point the camera at the CU logo';
+    elements.targets.forEach((target) => {
+      target.addEventListener('targetFound', () => {
+        targetFound = true;
+        setMarkerState('aligned', 'Aligned — target found');
+        setScannerStatus('found', 'Target found');
+        elements.message.textContent = 'CU logo recognized. Tap a department.';
+        elements.grids.forEach((grid) => {
+          grid.querySelectorAll('.clickable').forEach((image) => image.emit('targetFound'));
+        });
+      });
+      target.addEventListener('targetLost', () => {
+        if (elements.targets.some((item) => item.object3D.visible)) return;
+        targetFound = false;
+        setMarkerState('searching', 'Align the CU logo inside the frame');
+        setScannerStatus('scanning', 'Scanner active');
+        elements.message.textContent = 'Point the camera at the CU logo';
+      });
     });
     elements.viewer.addEventListener('error', handleModelError);
     elements.back.addEventListener('click', () => closeDepartment());
@@ -193,6 +212,8 @@
       }
       setScreen('ready');
       window.requestAnimationFrame(refreshCameraViewport);
+      setMarkerState(targetFound ? 'aligned' : 'searching', targetFound ? 'Aligned — target found' : 'Align the CU logo inside the frame');
+      elements.targetMarker.classList.toggle('is-hidden', targetFound);
       setScannerStatus(targetFound ? 'found' : 'scanning', targetFound ? 'Target found' : 'Scanner active');
       elements.message.textContent = targetFound ? 'CU logo recognized. Tap a department.' : 'Point the camera at the CU logo';
     } catch (error) {
