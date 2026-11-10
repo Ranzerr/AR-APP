@@ -110,6 +110,19 @@
     elements.modelFallback.classList.remove('is-hidden');
   }
 
+  function refreshCameraViewport() {
+    if (elements.scene.classList.contains('is-hidden')) return;
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  function bindViewportEvents() {
+    window.addEventListener('orientationchange', () => {
+      window.setTimeout(refreshCameraViewport, 250);
+    });
+    window.visualViewport?.addEventListener('resize', refreshCameraViewport);
+    window.visualViewport?.addEventListener('scroll', refreshCameraViewport);
+  }
+
   async function loadDepartments() {
     const response = await fetch('./departments.json', { cache: 'no-store' });
     if (!response.ok) throw new Error(`Department data returned ${response.status}.`);
@@ -151,6 +164,7 @@
         });
       }
       setScreen('ready');
+      window.requestAnimationFrame(refreshCameraViewport);
       elements.message.textContent = targetFound ? 'CU logo recognized. Tap a department.' : 'Point the camera at the CU logo';
     } catch (error) {
       showError(error.message || 'An unexpected error occurred.');
@@ -158,5 +172,6 @@
   }
 
   bindArEvents();
+  bindViewportEvents();
   startApp();
 })();
