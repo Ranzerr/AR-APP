@@ -1,0 +1,58 @@
+[
+  {
+    "name": "REPLACE: Department 1 complete name",
+    "logo": "./assets/logos/dept1.png",
+    "mascot": "REPLACE: Department 1 animal mascot",
+    "model": "./assets/models/dept1.glb",
+    "description": "REPLACE: Add the brief official description for Department 1."
+  },
+  {
+    "name": "REPLACE: Department 2 complete name",
+    "logo": "./assets/logos/dept2.png",
+    "mascot": "REPLACE: Department 2 animal mascot",
+    "model": "./assets/models/dept2.glb",
+    "description": "REPLACE: Add the brief official description for Department 2."
+  },
+  {
+    "name": "REPLACE: Department 3 complete name",
+    "logo": "./assets/logos/dept3.png",
+    "mascot": "REPLACE: Department 3 animal mascot",
+    "model": "./assets/models/dept3.glb",
+    "description": "REPLACE: Add the brief official description for Department 3."
+  },
+  {
+    "name": "REPLACE: Department 4 complete name",
+    "logo": "./assets/logos/dept4.png",
+    "mascot": "REPLACE: Department 4 animal mascot",
+    "model": "./assets/models/dept4.glb",
+    "description": "REPLACE: Add the brief official description for Department 4."
+  },
+  {
+    "name": "REPLACE: Department 5 complete name",
+    "logo": "./assets/logos/dept5.png",
+    "mascot": "REPLACE: Department 5 animal mascot",
+    "model": "./assets/models/dept5.glb",
+    "description": "REPLACE: Add the brief official description for Department 5."
+  },
+  {
+    "name": "REPLACE: Department 6 complete name",
+    "logo": "./assets/logos/dept6.png",
+    "mascot": "REPLACE: Department 6 animal mascot",
+    "model": "./assets/models/dept6.glb",
+    "description": "REPLACE: Add the brief official description for Department 6."
+  },
+  {
+    "name": "REPLACE: Department 7 complete name",
+    "logo": "./assets/logos/dept7.png",
+    "mascot": "REPLACE: Department 7 animal mascot",
+    "model": "./assets/models/dept7.glb",
+    "description": "REPLACE: Add the brief official description for Department 7."
+  },
+  {
+    "name": "REPLACE: Department 8 complete name",
+    "logo": "./assets/logos/dept8.png",
+    "mascot": "REPLACE: Department 8 animal mascot",
+    "model": "./assets/models/dept8.glb",
+    "description": "REPLACE: Add the brief official description for Department 8."
+  }
+]

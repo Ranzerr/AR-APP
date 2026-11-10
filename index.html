@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071a33">
+  <title>CU AR Department Directory</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+  <main id="app-shell" class="app-shell">
+    <section id="loading-screen" class="status-screen" aria-live="polite">
+      <div class="loader" aria-hidden="true"></div>
+      <h1>Starting camera</h1>
+      <p>Allow camera access to explore the CU Department Directory.</p>
+    </section>
+
+    <section id="error-screen" class="status-screen is-hidden" aria-live="assertive">
+      <div class="status-icon" aria-hidden="true">!</div>
+      <h1>We could not start the directory</h1>
+      <p id="error-message">Please check camera permission and try again.</p>
+      <button id="retry-button" class="button button-primary" type="button">Try again</button>
+    </section>
+
+    <div id="ar-hud" class="ar-hud is-hidden">
+      <p id="ar-message" class="ar-message">Point the camera at the CU logo</p>
+    </div>
+
+    <a-scene
+      id="ar-scene"
+      class="is-hidden"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+      mindar-image="imageTargetSrc: ./assets/targets.mind; uiLoading: no; uiScanning: no; uiError: no"
+      renderer="colorManagement: true; physicallyCorrectLights: true"
+      embedded>
+      <a-assets>
+        <a-entity id="department-assets"></a-entity>
+      </a-assets>
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="rayOrigin: mouse" raycaster="objects: .clickable"></a-camera>
+      <a-entity id="target" mindar-image-target="targetIndex: 0">
+        <a-entity id="department-grid" position="0 0 0.05"></a-entity>
+      </a-entity>
+      <a-light type="ambient" color="#ffffff" intensity="1.2"></a-light>
+    </a-scene>
+
+    <section id="info-overlay" class="info-overlay is-hidden" aria-modal="true" role="dialog" aria-labelledby="department-name">
+      <div class="info-content">
+        <header class="info-header">
+          <img id="department-logo" class="department-logo" src="" alt="">
+          <div>
+            <p class="eyebrow">CU Department</p>
+            <h2 id="department-name"></h2>
+          </div>
+        </header>
+        <p id="department-description" class="department-description"></p>
+        <p class="mascot-label">Animal mascot: <strong id="department-mascot"></strong></p>
+        <div class="viewer-wrap">
+          <model-viewer id="mascot-viewer" camera-controls auto-rotate shadow-intensity="1" exposure="1" alt="3D animal mascot"></model-viewer>
+          <p id="model-fallback" class="model-fallback is-hidden" role="status">The 3D mascot could not load. The rest of the department information is still available.</p>
+        </div>
+        <button id="back-button" class="button button-primary back-button" type="button">Back</button>
+      </div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
