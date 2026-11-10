@@ -1,58 +1,58 @@
 [
   {
-    "name": "REPLACE: Department 1 complete name",
-    "logo": "./assets/logos/dept1.png",
-    "mascot": "REPLACE: Department 1 animal mascot",
+    "name": "College of Computer Studies",
+    "logo": "./assets/logos/dept1.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept1.glb",
-    "description": "REPLACE: Add the brief official description for Department 1."
+    "description": "Offers the Bachelor of Science in Information Technology and Associate in Computer Technology programs, preparing students for careers in computing, software, systems, and information technology."
   },
   {
-    "name": "REPLACE: Department 2 complete name",
-    "logo": "./assets/logos/dept2.png",
-    "mascot": "REPLACE: Department 2 animal mascot",
+    "name": "College of Maritime Education",
+    "logo": "./assets/logos/dept2.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept2.glb",
-    "description": "REPLACE: Add the brief official description for Department 2."
+    "description": "Offers the Bachelor of Science in Marine Transportation and Bachelor of Science in Marine Engineering programs for careers in maritime operations and ship engineering."
   },
   {
-    "name": "REPLACE: Department 3 complete name",
-    "logo": "./assets/logos/dept3.png",
-    "mascot": "REPLACE: Department 3 animal mascot",
+    "name": "College of Business Administration",
+    "logo": "./assets/logos/dept3.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept3.glb",
-    "description": "REPLACE: Add the brief official description for Department 3."
+    "description": "Provides programs across Accountancy, Business Administration, Finance, Management, Marketing, and Taxation, developing skills for business and professional practice."
   },
   {
-    "name": "REPLACE: Department 4 complete name",
-    "logo": "./assets/logos/dept4.png",
-    "mascot": "REPLACE: Department 4 animal mascot",
+    "name": "College of Engineering",
+    "logo": "./assets/logos/dept4.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept4.glb",
-    "description": "REPLACE: Add the brief official description for Department 4."
+    "description": "Offers Civil, Electronics, and Mechanical Engineering programs, with the university's engineering offerings also covering Marine Engineering and Nautical or Marine Transport."
   },
   {
-    "name": "REPLACE: Department 5 complete name",
-    "logo": "./assets/logos/dept5.png",
-    "mascot": "REPLACE: Department 5 animal mascot",
+    "name": "College of Health Sciences & Midwifery",
+    "logo": "./assets/logos/dept5.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept5.glb",
-    "description": "REPLACE: Add the brief official description for Department 5."
+    "description": "Offers the Bachelor of Science in Nursing and School of Midwifery programs, preparing students for compassionate, competent, and professional health care service."
   },
   {
-    "name": "REPLACE: Department 6 complete name",
-    "logo": "./assets/logos/dept6.png",
-    "mascot": "REPLACE: Department 6 animal mascot",
+    "name": "College of Education",
+    "logo": "./assets/logos/dept6.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept6.glb",
-    "description": "REPLACE: Add the brief official description for Department 6."
+    "description": "Offers Bachelor of Elementary Education and Bachelor of Secondary Education programs with majors in English, Mathematics, Physical Education, and Social Studies."
   },
   {
-    "name": "REPLACE: Department 7 complete name",
-    "logo": "./assets/logos/dept7.png",
-    "mascot": "REPLACE: Department 7 animal mascot",
+    "name": "College of Arts and Sciences",
+    "logo": "./assets/logos/dept7.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept7.glb",
-    "description": "REPLACE: Add the brief official description for Department 7."
+    "description": "Offers the Bachelor of Arts in English Language Studies, developing communication, language, research, and critical-thinking skills for further study and professional work."
   },
   {
-    "name": "REPLACE: Department 8 complete name",
-    "logo": "./assets/logos/dept8.png",
-    "mascot": "REPLACE: Department 8 animal mascot",
+    "name": "College of Criminology",
+    "logo": "./assets/logos/dept8.jpeg",
+    "mascot": "Mascot name to be confirmed",
     "model": "./assets/models/dept8.glb",
-    "description": "REPLACE: Add the brief official description for Department 8."
+    "description": "Offers the Bachelor of Science in Criminology, preparing students for careers and service related to law enforcement, public safety, criminal justice, and community protection."
   }
 ]

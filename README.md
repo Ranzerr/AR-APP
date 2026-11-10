@@ -5,9 +5,9 @@ A static school lab activity that uses MindAR image tracking to reveal eight tap
 ## Replace these files
 
 - `assets/targets/targets.mind`: compile your target image and place it in the targets folder.
-- `assets/logos/dept1.png` through `dept8.png`: replace the numbered placeholder logos with the eight official department logos. Keep the filenames.
+- `assets/logos/dept1.jpeg` through `dept8.jpeg`: replace the numbered placeholder logos with the eight official department logos. Keep the filenames.
 - `assets/models/dept1.glb` through `dept8.glb`: replace the cube placeholders with the matching animal mascot models. Keep the filenames.
-- `departments.json`: replace every `REPLACE: ...` value with the official department name, mascot, and brief description. Keep the existing `logo` and `model` paths unless you also rename the assets.
+- `departments.json`: contains the eight college names and program descriptions. Update the mascot labels if the official animal names are confirmed. Keep the existing `logo` and `model` paths unless you also rename the assets.
 
 ## Compile `targets.mind`
 
@@ -16,6 +16,8 @@ A static school lab activity that uses MindAR image tracking to reveal eight tap
 3. Compile the image target and download the generated `targets.mind` file.
 4. Put it at `./assets/targets/targets.mind`.
 5. The official CU logo must be the first target in the compiled file because the app uses `targetIndex: 0`.
+
+The target file and numbered logo/model assets are already wired into the app. The college names and program descriptions have been entered; confirm the official mascot names before publishing.
 
 ## Run locally
 
