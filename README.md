@@ -1,13 +1,23 @@
 # CU AR Department Directory
 
-A static school lab activity that uses MindAR image tracking to reveal eight tappable department logos when the official Capitol University logo is recognized. Each department opens an information overlay with a 3D mascot.
+A static school lab activity that uses MindAR image tracking to reveal eight tappable college logos when the official Capitol University logo is recognized. Each college opens an information overlay with its programs and a 3D mascot model.
 
-## Replace these files
+## Included assets and college mapping
 
-- `assets/targets/targets.mind`: compile your target image and place it in the targets folder.
-- `assets/logos/dept1.jpeg` through `dept8.jpeg`: replace the numbered placeholder logos with the eight official department logos. Keep the filenames.
-- `assets/models/dept1.glb` through `dept8.glb`: replace the cube placeholders with the matching animal mascot models. Keep the filenames.
-- `departments.json`: contains the eight college names and program descriptions. Update the mascot labels if the official animal names are confirmed. Keep the existing `logo` and `model` paths unless you also rename the assets.
+The uploaded target, logos, and GLB models are already connected to the app. The numbered files map to the colleges as follows:
+
+| Asset number | College |
+| --- | --- |
+| `dept1` | College of Computer Studies |
+| `dept2` | College of Maritime Education |
+| `dept3` | College of Business Administration |
+| `dept4` | College of Engineering |
+| `dept5` | College of Health Sciences & Midwifery |
+| `dept6` | College of Education |
+| `dept7` | College of Arts and Sciences |
+| `dept8` | College of Criminology |
+
+The current data is stored in `departments.json`. Update only the mascot labels when the official mascot names are confirmed. Keep the existing `logo` and `model` paths unless you rename the assets.
 
 ## Compile `targets.mind`
 
@@ -23,13 +33,35 @@ The target file and numbered logo/model assets are already wired into the app. T
 
 Camera access requires HTTPS (or localhost). Opening `index.html` directly from `file://` will not provide a reliable camera environment. Use a static HTTPS host such as GitHub Pages for the actual phone test.
 
+```bash
+python3 -m http.server 4173
+```
+
+Open `http://localhost:4173` in a browser on the same device. Do not use `file://`.
+
 ## GitHub Pages
 
-1. Create a GitHub repository and upload this folder's files, including the `assets` folders and compiled `targets.mind`.
-2. In the repository, open **Settings > Pages**.
-3. Choose **Deploy from a branch**, select the branch containing the app, and choose the root folder.
-4. Open the generated `https://<username>.github.io/<repository>/` URL in Chrome on Android.
-5. Grant camera permission. The app expects the relative paths in this repository, so it can be hosted from a project subpath.
+1. In the repository, open **Settings > Pages**.
+2. Choose **Deploy from a branch**, select `main`, and choose `/ (root)`.
+3. Open the generated HTTPS URL in Chrome on Android.
+4. Grant camera permission when prompted.
+5. If permission was previously blocked, open Chrome site settings, allow Camera, and tap **Try again** in the app.
+
+The app uses relative asset paths and can be hosted from a project subpath. The final URL must remain HTTPS. If the GitHub Pages URL redirects to an `http://` custom domain, remove or correctly configure that custom domain before testing; Chrome blocks camera access on an insecure HTTP page.
+
+## Mobile camera and layout behavior
+
+The app now:
+
+- Requests camera access explicitly before starting MindAR.
+- Prefers the rear-facing camera on mobile devices.
+- Shows a useful error when the page is HTTP, camera permission is blocked, or no camera is available.
+- Uses mobile-safe dynamic viewport sizing and safe-area insets.
+- Recalculates the MindAR camera viewport after startup, orientation changes, and mobile browser viewport changes.
+- Keeps the AR canvas and camera video centered and full-screen in portrait and landscape layouts.
+- Uses a scrollable department information overlay on small screens.
+
+For the best phone test, use the latest Chrome or Safari, hold the phone in portrait mode, and reload after rotating the device.
 
 ## Test checklist
 
