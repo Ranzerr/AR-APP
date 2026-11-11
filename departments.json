@@ -2,56 +2,56 @@
   {
     "name": "College of Computer Studies",
     "logo": "./assets/logos/dept1.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Falcons",
     "model": "./assets/models/dept1.glb",
     "description": "Offers the Bachelor of Science in Information Technology and Associate in Computer Technology programs, preparing students for careers in computing, software, systems, and information technology."
   },
   {
     "name": "College of Maritime Education",
     "logo": "./assets/logos/dept2.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Sharks",
     "model": "./assets/models/dept2.glb",
-    "description": "Offers the Bachelor of Science in Marine Transportation and Bachelor of Science in Marine Engineering programs for careers in maritime operations and ship engineering."
+    "description": "Offers the Bachelor of Science in Marine Transportation program for careers in maritime operations and ship engineering."
   },
   {
     "name": "College of Business Administration",
     "logo": "./assets/logos/dept3.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Eagles",
     "model": "./assets/models/dept3.glb",
     "description": "Provides programs across Accountancy, Business Administration, Finance, Management, Marketing, and Taxation, developing skills for business and professional practice."
   },
   {
     "name": "College of Engineering",
     "logo": "./assets/logos/dept4.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Beavers",
     "model": "./assets/models/dept4.glb",
-    "description": "Offers Civil, Electronics, and Mechanical Engineering programs, with the university's engineering offerings also covering Marine Engineering and Nautical or Marine Transport."
+    "description": "Offers Civil and Mechanical Engineering programs."
   },
   {
-    "name": "College of Health Sciences & Midwifery",
+    "name": "College of Health Sciences",
     "logo": "./assets/logos/dept5.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Pythons",
     "model": "./assets/models/dept5.glb",
-    "description": "Offers the Bachelor of Science in Nursing and School of Midwifery programs, preparing students for compassionate, competent, and professional health care service."
+    "description": "Offers the Bachelor of Science in Nursing and Bachelor of Science in Medical Technology, preparing students for compassionate, competent, and professional health care service."
   },
   {
     "name": "College of Education",
     "logo": "./assets/logos/dept6.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Blazing Phoenix",
     "model": "./assets/models/dept6.glb",
     "description": "Offers Bachelor of Elementary Education and Bachelor of Secondary Education programs with majors in English, Mathematics, Physical Education, and Social Studies."
   },
   {
     "name": "College of Arts and Sciences",
     "logo": "./assets/logos/dept7.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Red Knights",
     "model": "./assets/models/dept7.glb",
     "description": "Offers the Bachelor of Arts in English Language Studies, developing communication, language, research, and critical-thinking skills for further study and professional work."
   },
   {
     "name": "College of Criminology",
     "logo": "./assets/logos/dept8.jpeg",
-    "mascot": "Mascot name to be confirmed",
+    "mascot": "Purple Warriors",
     "model": "./assets/models/dept8.glb",
     "description": "Offers the Bachelor of Science in Criminology, preparing students for careers and service related to law enforcement, public safety, criminal justice, and community protection."
   }
