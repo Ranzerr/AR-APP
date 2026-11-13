@@ -108,19 +108,19 @@
       const posY = 0.45 - row * 0.9;
 
       const card = document.createElement('a-entity');
-      card.classList.add('clickable');
       card.setAttribute('position', `${posX} ${posY} 0`);
       card.setAttribute('animation__pop', 'property: scale; from: 0.01 0.01 0.01; to: 1 1 1; dur: 500; easing: easeOutBack; startEvents: targetFound');
       card.setAttribute('animation__hide', 'property: scale; to: 0.01 0.01 0.01; dur: 180; easing: easeInQuad; startEvents: targetLost');
 
       const image = document.createElement('a-image');
+      image.classList.add('clickable');
       image.setAttribute('src', department.logo);
       image.setAttribute('width', '0.52');
       image.setAttribute('height', '0.52');
       image.setAttribute('position', '0 0 0');
       image.setAttribute('material', 'shader: flat; transparent: true; alphaTest: 0.05');
 
-      card.addEventListener('click', () => openDepartment(index));
+      image.addEventListener('click', () => openDepartment(index));
       card.appendChild(image);
       grid.appendChild(card);
     });
