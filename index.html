@@ -18,6 +18,17 @@
       <p id="loading-message">Allow camera access to explore the CU Department Directory.</p>
     </section>
 
+    <section id="welcome-screen" class="welcome-screen" aria-labelledby="welcome-title">
+      <img class="university-logo" src="./assets/capitol-university-logo.png" alt="Capitol University logo">
+      <h1 id="welcome-title">CU Department Directory</h1>
+      <p class="welcome-copy">Discover the colleges of CU through an interactive augmented reality experience.</p>
+      <div class="welcome-instruction">
+        <span class="instruction-icon" aria-hidden="true">⌖</span>
+        <span>Allow camera access, then point your camera at the CU logo.</span>
+      </div>
+      <button id="begin-button" class="button button-primary begin-button" type="button">Begin scanning <span aria-hidden="true">→</span></button>
+    </section>
+
     <section id="error-screen" class="status-screen is-hidden" aria-live="assertive">
       <div class="status-icon" aria-hidden="true">!</div>
       <h1>We could not start the directory</h1>
@@ -38,7 +49,7 @@
         id="ar-scene"
         vr-mode-ui="enabled: false"
         device-orientation-permission-ui="enabled: false"
-        mindar-image="imageTargetSrc: ./assets/targets.mind; autoStart: true; uiLoading: no; uiScanning: no; uiError: no;"
+        mindar-image="imageTargetSrc: ./assets/targets.mind; autoStart: false; uiLoading: no; uiScanning: no; uiError: no;"
         renderer="colorManagement: true; physicallyCorrectLights: true;"
         embedded>
         

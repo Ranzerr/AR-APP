@@ -2,6 +2,8 @@
   'use strict';
 
   const elements = {
+    welcome: document.querySelector('#welcome-screen'),
+    begin: document.querySelector('#begin-button'),
     loading: document.querySelector('#loading-screen'),
     loadingMessage: document.querySelector('#loading-message'),
     error: document.querySelector('#error-screen'),
@@ -33,6 +35,7 @@
   let activeDepartment = null;
 
   function setScreen(screen) {
+    elements.welcome.classList.toggle('is-hidden', screen !== 'welcome');
     elements.loading.classList.toggle('is-hidden', screen !== 'loading');
     elements.error.classList.toggle('is-hidden', screen !== 'error');
     elements.cameraContainer.classList.toggle('is-hidden', screen === 'error');
@@ -104,16 +107,22 @@
       const posX = (column - 1.5) * 0.9;
       const posY = 0.45 - row * 0.9;
 
+      const card = document.createElement('a-entity');
+      card.classList.add('clickable');
+      card.setAttribute('position', `${posX} ${posY} 0`);
+      card.setAttribute('animation__pop', 'property: scale; from: 0.01 0.01 0.01; to: 1 1 1; dur: 500; easing: easeOutBack; startEvents: targetFound');
+      card.setAttribute('animation__hide', 'property: scale; to: 0.01 0.01 0.01; dur: 180; easing: easeInQuad; startEvents: targetLost');
+
       const image = document.createElement('a-image');
-      image.classList.add('clickable');
       image.setAttribute('src', department.logo);
-      image.setAttribute('width', '0.72');
-      image.setAttribute('height', '0.72');
-      image.setAttribute('position', `${posX} ${posY} 0`);
+      image.setAttribute('width', '0.52');
+      image.setAttribute('height', '0.52');
+      image.setAttribute('position', '0 0 0');
       image.setAttribute('material', 'shader: flat; transparent: true; alphaTest: 0.05');
-      
-      image.addEventListener('click', () => openDepartment(index));
-      grid.appendChild(image);
+
+      card.addEventListener('click', () => openDepartment(index));
+      card.appendChild(image);
+      grid.appendChild(card);
     });
   }
 
@@ -211,6 +220,10 @@
         });
       }
 
+      const mindarSystem = elements.scene.systems['mindar-image-system'];
+      if (!mindarSystem) throw new Error('The scanner could not load. Refresh the page and try again.');
+      await mindarSystem.start();
+
       if (!arReady) {
         await new Promise((resolve, reject) => {
           const timeout = window.setTimeout(() => reject(new Error('The image scanner took too long to start.')), 15000);
@@ -234,5 +247,6 @@
 
   bindArEvents();
   bindViewportEvents();
-  startApp();
+  elements.begin.addEventListener('click', startApp);
+  setScreen('welcome');
 })();
